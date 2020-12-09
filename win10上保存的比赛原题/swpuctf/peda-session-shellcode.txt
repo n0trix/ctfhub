@@ -1,4 +1,0 @@
-break *0x600135
-break *0x6001b5
-break *0x6001df
-
