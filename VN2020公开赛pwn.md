@@ -51,7 +51,9 @@ print io.recv()
 
 #### babybabypwn1
 
-sigreturn+Stack migration+orw
+sigreturn+orw
+
+这题使用的是syscall函数显示进行rt_sigreturn系统调用，而rt_sigreturn是不需要参数的，syscall(这里指指令)执行后，根据当前栈帧进行恢复寄存器，在调试的时候，buf并不是从rsp开始的而是从rsp+8，所以使用pwntools生成的完整fake frame需要去掉8字节，即 io.sendafter('message: ',str(frame)[8:])
 
 ```python
 #!/usr/bin/env python

