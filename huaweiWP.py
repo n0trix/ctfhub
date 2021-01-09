@@ -153,8 +153,8 @@ if __name__ == '__main__':
 
     p.interactive()
 
-    #-------------schrodingerbox-------------
-    #!/usr/bin/python3
+#-------------schrodingerbox-------------
+#!/usr/bin/python3
 from pwn import *
 
 p = remote('127.0.0.1', 52520)
